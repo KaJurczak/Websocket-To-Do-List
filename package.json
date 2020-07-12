@@ -1,6 +1,14 @@
 {
-  "name": "20200712_28_Websocket to do list",
+  "name": "ToDoList",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+    "Express": "^3.0.1",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4"
+  }
 }
