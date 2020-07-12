@@ -1,6 +1,6 @@
 const express = require('express');
 // const path = require('path');
-// const socket = require('socket.io');
+const socket = require('socket.io');
 
 const app = express();
 
@@ -17,4 +17,24 @@ app.use((req, res) => {
 
 const server = app.listen(process.env.PORT || 8000, () => {
   console.log('Server is running on port: 8000');
+});
+
+const io = socket(server);
+
+const tasks = [];
+
+io.on('connection', (socket) => {
+  console.log('New client! Its id – ' + socket.id);
+
+  socket.emit('updateData', tasks);
+
+  socket.on('addTask', (taskName) => {
+    tasks.push(taskName);
+    socket.broadcast.emit('addTask', taskName);
+  });
+  
+  socket.on('removeTask', (taskIndex) => {
+    tasks.splice(taskIndex, 1);
+    socket.broadcast.emit('removeTask', taskIndex);
+  });
 });
