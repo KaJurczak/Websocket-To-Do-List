@@ -7,11 +7,10 @@ class App extends React.Component {
     taskName: '',
   }
   componentDidMount() {
-    this.socket = io();
-    this.socket.connect("http://localhost:8000/");
+    this.socket = io('http://localhost:8000/');
     this.socket.on('addTask', (task) => this.addTask(task));
     this.socket.on('removeTask', (id) => this.removeTask(id));
-    this.socket.on('updateData', (tasks) => this.updateTasks(tasks));
+    this.socket.on('updateData', (tasks) => this.updateData(tasks));
   };
 
   removeTask(id, local) {
@@ -33,7 +32,7 @@ class App extends React.Component {
   };
 
   updateData(tasks) {
-    this.state.tasks.push(tasks);
+    this.setState({tasks: tasks});
   };
 
   render() {
