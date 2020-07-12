@@ -32,9 +32,11 @@ io.on('connection', (socket) => {
     tasks.push(taskName);
     socket.broadcast.emit('addTask', taskName);
   });
-  
+
   socket.on('removeTask', (taskIndex) => {
+    console.log('tasks', tasks);
     tasks.splice(taskIndex, 1);
+    console.log('tasks', tasks);
     socket.broadcast.emit('removeTask', taskIndex);
   });
 });
