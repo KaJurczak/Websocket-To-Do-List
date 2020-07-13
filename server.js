@@ -33,10 +33,9 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('addTask', taskName);
   });
 
-  socket.on('removeTask', (taskIndex) => {
-    console.log('tasks', tasks);
-    tasks.splice(taskIndex, 1);
-    console.log('tasks', tasks);
-    socket.broadcast.emit('removeTask', taskIndex);
+  socket.on('removeTask', (taskId) => {
+    const index = this.state.tasks.findIndex(item => item.id === taskId);
+    tasks.splice(index, 1);
+    socket.broadcast.emit('removeTask', taskId);
   });
 });

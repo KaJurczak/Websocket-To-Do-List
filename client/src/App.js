@@ -1,5 +1,6 @@
 import React from 'react';
 import io from 'socket.io-client';
+import { v4 as uuidv4 } from 'uuid';
 
 class App extends React.Component {
   state = {
@@ -14,7 +15,8 @@ class App extends React.Component {
   };
 
   removeTask(id, local) {
-    this.state.tasks.splice(id, 1);
+    const index = this.state.tasks.findIndex(item => item.id === id);
+    this.state.tasks.splice(index, 1);
     if(local){
       this.socket.emit('removeTask', id);
       console.log('send to server info about removing task');
@@ -27,8 +29,9 @@ class App extends React.Component {
 
   submitForm = (e) => {
     e.preventDefault();
-    this.addTask(this.state.taskName);
-    this.socket.emit('addTask', this.state.taskName);
+    const uniqueId = uuidv4();
+    this.addTask({id: uniqueId, name: this.state.taskName});
+    this.socket.emit('addTask', {id: uniqueId, name: this.state.taskName});
   };
 
   updateData(tasks) {
@@ -49,7 +52,7 @@ class App extends React.Component {
           <ul className="tasks-section__list" id="tasks-list">
             {this.state.tasks.map(item => {
               return(
-              <li className="task" key={item}> {item} <button className="btn btn--red" onClick={() => this.removeTask(this.state.tasks.indexOf(item), 'local')}>Remove</button></li>)}
+              <li className="task" key={item.id}> {item.name} <button className="btn btn--red" onClick={() => this.removeTask(item.id, 'local')}>Remove</button></li>)}
             )}
           </ul>
      
