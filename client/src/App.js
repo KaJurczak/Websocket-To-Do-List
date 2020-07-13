@@ -15,16 +15,14 @@ class App extends React.Component {
   };
 
   removeTask(id, local) {
-    const index = this.state.tasks.findIndex(item => item.id === id);
-    this.state.tasks.splice(index, 1);
+    this.setState({tasks: this.state.tasks.filter(item => item.id !== id)});
     if(local){
       this.socket.emit('removeTask', id);
-      console.log('send to server info about removing task');
     }
   };
 
   addTask(task) {
-    this.state.tasks.push(task);
+    this.setState({tasks: [...this.state.tasks, task]});
   };
 
   submitForm = (e) => {

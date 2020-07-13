@@ -34,7 +34,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('removeTask', (taskId) => {
-    const index = this.state.tasks.findIndex(item => item.id === taskId);
+    const index = tasks.findIndex(item => item.id === taskId);
     tasks.splice(index, 1);
     socket.broadcast.emit('removeTask', taskId);
   });
